@@ -33,4 +33,4 @@ const clientSchema = new mongoose.Schema({
     ]
 }, { timestamps: true })
 
-module.exports = mongoose.mongoose.module('Client', clientSchema)
+module.exports = mongoose.model('Client', clientSchema)
