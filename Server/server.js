@@ -1,7 +1,7 @@
 const connectDB = require("./database/db")
 const express = require('express')
 const cors = require("cors")
-
+const programRoutes = require('./routes/program.routes')
 const app = express()
 
 app.use(express.json())
@@ -13,7 +13,7 @@ PORT = process.env.PORT || 4000
 // database connection
 
 connectDB()
-
+app.use('/api/programs/', programRoutes)
 
 
 

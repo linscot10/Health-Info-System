@@ -1,4 +1,4 @@
-const Program = require('../controllers/program.controller')
+const Program = require('../models/program.model')
 
 // create a new health program
 
@@ -21,10 +21,14 @@ const createProgram = async (req, res) => {
 
         const program = new Program({ name, description })
         await program.save();
+
+       
         res.status(201).json({
             message: 'Program created successfully',
             program,
         });
+
+
     } catch (error) {
         return res.status(500).json({
             success: false,
