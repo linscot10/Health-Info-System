@@ -12,8 +12,8 @@ const Client = () => {
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        const res = await API.get('/clients');
-        setClients(Array.isArray(res.data.programs) ? res.data.programs : []);
+        const res = await API.get('/clients/');
+        setClients(Array.isArray(res.data.clients) ? res.data.clients : []);
       } catch (error) {
         console.error('Error fetching clients:', error);
       } finally {
@@ -36,7 +36,7 @@ const Client = () => {
     <div className="container mt-5">
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2 className="fw-bold" style={{ color: '#007bff' }}>Registered Clients</h2>
-        <Link to="/register-client" className="btn btn-primary">
+        <Link to="/clients/register" className="btn btn-primary">
           + Register New Client
         </Link>
       </div>
@@ -54,6 +54,9 @@ const Client = () => {
                 <th>Gender</th>
                 <th>Date of Birth</th>
                 <th>Phone</th>
+                <th>Email</th>
+                <th>National ID</th>
+                <th>Address</th>
                 <th>Enrolled Programs</th>
               </tr>
             </thead>
@@ -64,7 +67,9 @@ const Client = () => {
                   <td>{client.gender}</td>
                   <td>{new Date(client.dateOfBirth).toLocaleDateString()}</td>
                   <td>{client.phoneNumber}</td>
-                  <td>{client.enrolledPrograms}</td>
+                  <td>{client.email}</td>
+                  <td>{client.nationalId}</td>
+                  <td>{client.address}</td>
                   <td>{client.enrolledPrograms?.length || 0}</td>
                 </tr>
               ))}

@@ -6,7 +6,9 @@ const mongoose = require('mongoose')
 
 const registerClient = async (req, res) => {
     try {
-        const { fullName, gender, dateOfBirth, nationalId, phoneNumber, address } = req.body;
+
+        console.log('Received Client Data:', req.body);
+        const { fullName, gender, dateOfBirth, nationalId, phoneNumber, email, address } = req.body;
 
         // Check for existing national ID
         const existing = await Client.findOne({ nationalId });
@@ -20,10 +22,13 @@ const registerClient = async (req, res) => {
             dateOfBirth,
             nationalId,
             phoneNumber,
+            email,
             address
         });
 
         await client.save();
+        console.log(client);
+
 
         res.status(201).json({
             message: 'Client registered successfully',
@@ -149,9 +154,9 @@ const searchClients = async (req, res) => {
         const clients = await Client.find({
             $or: [
                 { fullName: { $regex: query, $options: 'i' } },
-                { nationalId: { $regex: query, $options: 'i' } }
+                { email: { $regex: query, $options: 'i' } }
             ]
-        }).select('fullName nationalId phoneNumber').sort({ createdAt: -1 });
+        }).select('-__v').sort({ createdAt: -1 });
 
         res.status(200).json({
             success: true,
