@@ -162,4 +162,30 @@ const searchClients = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 }
-module.exports = { registerClient, enrollClientInPrograms, getAllClients, getClientProfile, searchClients }
+
+// Get a client's public profile by ID
+
+const getPublicClientProfile = async (req, res) => {
+    try {
+        const { clientId } = req.params;
+        const client = await Client.findById(clientId)
+            .populate('enrolledPrograms', 'name description')
+            .select('-__v');
+
+        if (!client) {
+            return res.status(404).json({ message: 'Client not found' });
+        }
+
+        res.status(200).json({
+            clientId: client._id,
+            fullName: client.fullName,
+            phone: client.phone,
+            enrolledPrograms: client.enrolledPrograms,
+            createdAt: client.createdAt,
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error' });
+    }
+}
+module.exports = { registerClient, enrollClientInPrograms, getAllClients, getClientProfile, searchClients, getPublicClientProfile }
