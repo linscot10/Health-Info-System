@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import API from '../api/api';
 import { Link } from 'react-router-dom';
 
 const ClientProfile = () => {
   const { clientId } = useParams();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const [client, setClient] = useState(null);
   const [loading, setLoading] = useState(true);
