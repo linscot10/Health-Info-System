@@ -17,12 +17,12 @@ function App() {
       <Navbar />
       <div className='container  mt-4'>
         <Routes>
-          <Route path='/' component={<Home />} />
-          <Route path='/programs' component={<Programs />} />
-          <Route path='/clients' component={<Client />} />
-          <Route path='/clients/register' component={<RegisterClient />} />
-          <Route path='/clients/:clientId/enroll' component={<EnrollClient />} />
-          <Route path='/clients/:clientId/profile' component={<ClientProfile />} />
+          <Route path='/' element={<Home />} />
+          <Route path='/programs' element={<Programs />} />
+          <Route path='/clients' element={<Client />} />
+          <Route path='/clients/register' element={<RegisterClient />} />
+          <Route path='/clients/:clientId/enroll' element={<EnrollClient />} />
+          <Route path='/clients/:clientId/profile' element={<ClientProfile />} />
         </Routes>
       </div>
     </>
