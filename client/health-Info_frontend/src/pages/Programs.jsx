@@ -1,35 +1,34 @@
-import React from 'react'
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import API from '../api/api';
 
-
 const Programs = () => {
-  const [programs, setPrograms] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [programs, setPrograms] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchPrograms = async () => {
       try {
-        const res = await API.get('/programs')
-        setPrograms(Array.isArray(res.data.programs) ? res.data.programs : [])
+        const res = await API.get('/programs');
+        setPrograms(Array.isArray(res.data.programs) ? res.data.programs : []);
       } catch (error) {
         console.error('Error fetching programs:', error);
       } finally {
         setLoading(false);
       }
-    }
+    };
 
-    fetchPrograms()
-  }, [])
+    fetchPrograms();
+  }, []);
 
   if (loading) {
     return <div className="text-center mt-5"><div className="spinner-border text-primary"></div></div>;
   }
 
   return (
-    <div className="container mt-5">
-
+    <div className="container mt-5 position-relative" style={{ minHeight: '100vh' }}>
       <h2 className="mb-4 text-center fw-bold" style={{ color: '#007bff' }}>Health Programs</h2>
+
       {programs.length === 0 ? (
         <div className="alert alert-info text-center">
           No health programs found. Please create one.
@@ -51,8 +50,16 @@ const Programs = () => {
           ))}
         </div>
       )}
-    </div>
-  )
-}
 
-export default Programs
+
+      <Link
+        to="/programs/create-program"
+        className="btn btn-primary position-relative bottom-50 start-50 translate-middle-x mb-4"
+      >
+        + Create New Program
+      </Link>
+    </div>
+  );
+};
+
+export default Programs;

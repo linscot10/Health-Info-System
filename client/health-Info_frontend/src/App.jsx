@@ -6,6 +6,7 @@ import RegisterClient from './pages/RegisterClient';
 import Home from './pages/Home';
 import Programs from './pages/Programs';
 import Client from './pages/Client';
+import CreateProgram from './pages/CreateProgram';
 
 import './App.css'
 
@@ -23,6 +24,7 @@ function App() {
           <Route path='/clients/register' element={<RegisterClient />} />
           <Route path='/clients/:clientId/enroll' element={<EnrollClient />} />
           <Route path='/clients/:clientId/profile' element={<ClientProfile />} />
+          <Route path='/programs/create-program' element={<CreateProgram />} />
         </Routes>
       </div>
     </>
