@@ -7,6 +7,9 @@ body {
   border-radius: 0 0 10px 10px;
 }
 
-.btn {
+/* .btn {
   min-width: 200px;
+} */
+.custom-btn {
+  width: 100px;  /* Adjust the width value as needed */
 }

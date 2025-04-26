@@ -23,7 +23,7 @@ function App() {
           <Route path='/clients' element={<Client />} />
           <Route path='/clients/register' element={<RegisterClient />} />
           <Route path='/clients/:clientId/enroll' element={<EnrollClient />} />
-          <Route path='/clients/:clientId/profile' element={<ClientProfile />} />
+          <Route path='/clients/:clientId/' element={<ClientProfile />} />
           <Route path='/programs/create-program' element={<CreateProgram />} />
         </Routes>
       </div>

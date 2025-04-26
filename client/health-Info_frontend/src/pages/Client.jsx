@@ -1,13 +1,11 @@
-import React from 'react'
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import API from '../api/api';
 
-
 const Client = () => {
-
   const [clients, setClients] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     const fetchClients = async () => {
@@ -24,6 +22,26 @@ const Client = () => {
     fetchClients();
   }, []);
 
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  // Filter clients based on search query
+  const filteredClients = clients.filter(client => {
+    const fullName = client.fullName?.toLowerCase() || '';
+    const email = client.email?.toLowerCase() || '';
+    const phone = client.phoneNumber?.toLowerCase() || '';
+    const nationalId = client.nationalId?.toLowerCase() || '';
+    const query = searchQuery.toLowerCase();
+
+    return (
+      fullName.includes(query) ||
+      email.includes(query) ||
+      phone.includes(query) ||
+      nationalId.includes(query)
+    );
+  });
+
   if (loading) {
     return (
       <div className="text-center mt-5">
@@ -39,12 +57,22 @@ const Client = () => {
         <Link to="/clients/register" className="btn btn-primary">
           + Register New Client
         </Link>
-
       </div>
 
-      {clients.length === 0 ? (
+      {/* Search Bar */}
+      <div className="mb-4">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Search by name, email, phone, or national ID..."
+          value={searchQuery}
+          onChange={handleSearchChange}
+        />
+      </div>
+
+      {filteredClients.length === 0 ? (
         <div className="alert alert-info text-center">
-          No clients found. Please register a client.
+          No matching clients found.
         </div>
       ) : (
         <div className="table-responsive">
@@ -59,11 +87,12 @@ const Client = () => {
                 <th>National ID</th>
                 <th>Address</th>
                 <th>Enrolled Programs</th>
+                <th>Profile</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              {clients.map((client) => (
+              {filteredClients.map((client) => (
                 <tr key={client._id}>
                   <td>{client.fullName}</td>
                   <td>{client.gender}</td>
@@ -74,9 +103,14 @@ const Client = () => {
                   <td>{client.address}</td>
                   <td>{client.enrolledPrograms?.length || 0}</td>
                   <td>
+                    <Link to={`/clients/${client._id}`} className="btn btn-info btn-sm custom-btn">
+                      View Profile
+                    </Link>
+                  </td>
+                  <td>
                     <Link
                       to={`/clients/${client._id}/enroll`}
-                      className="btn btn-success btn-sm"
+                      className="btn btn-success btn-sm custom-btn"
                     >
                       Enroll
                     </Link>
@@ -88,7 +122,7 @@ const Client = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Client
+export default Client;
