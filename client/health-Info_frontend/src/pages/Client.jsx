@@ -39,6 +39,7 @@ const Client = () => {
         <Link to="/clients/register" className="btn btn-primary">
           + Register New Client
         </Link>
+
       </div>
 
       {clients.length === 0 ? (
@@ -58,6 +59,7 @@ const Client = () => {
                 <th>National ID</th>
                 <th>Address</th>
                 <th>Enrolled Programs</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -71,6 +73,14 @@ const Client = () => {
                   <td>{client.nationalId}</td>
                   <td>{client.address}</td>
                   <td>{client.enrolledPrograms?.length || 0}</td>
+                  <td>
+                    <Link
+                      to={`/clients/${client._id}/enroll`}
+                      className="btn btn-success btn-sm"
+                    >
+                      Enroll
+                    </Link>
+                  </td>
                 </tr>
               ))}
             </tbody>

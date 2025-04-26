@@ -90,10 +90,16 @@ const getClientProfile = async (req, res) => {
 // enroll client in one or more  programs
 
 const enrollClientInPrograms = async (req, res) => {
+
+
+
     try {
+        console.log("Request body:", req.body);
+        
 
         const clientId = req.params.id;
         const { programIds } = req.body
+        
 
         if (!Array.isArray(programIds) || programIds.length === 0) {
             return res.status(400).json({ message: 'Please provide at least one program ID' });
@@ -130,7 +136,7 @@ const enrollClientInPrograms = async (req, res) => {
             enrolledPrograms: client.enrolledPrograms
         });
     } catch (error) {
-        console.error(err);
+        console.error(error);
         res.status(500).json({ message: 'Server error' });
 
     }
