@@ -1,5 +1,6 @@
 const Client = require('../models/client.model')
 const Program = require('../models/program.model')
+const mongoose = require('mongoose')
 
 // register a new client
 
@@ -53,11 +54,23 @@ const getAllClients = async (req, res) => {
 }
 
 
-//get one client
+//get  client profile
 
-const getClientById = async (req, res) => {
+const getClientProfile = async (req, res) => {
     try {
-        const client = await Client.findById(req.params.id);
+
+        const clientId = req.params.id;
+
+        console.log("clientId:", clientId);
+
+        // if (!mongoose.Types.ObjectId.isValid(clientId)) {
+        //     return res.status(400).json({ message: 'Invalid client ID' });
+        // }
+
+        const client = await Client.findById(clientId)
+            .populate('enrolledPrograms', 'name description')
+            .select('-__v');;
+
 
         if (!client) {
             return res.status(404).json({ message: 'Client not found' });
@@ -119,4 +132,34 @@ const enrollClientInPrograms = async (req, res) => {
 }
 
 
-module.exports = { registerClient, enrollClientInPrograms, getAllClients, getClientById }
+
+const searchClients = async (req, res) => {
+
+    console.log("Route hit")
+    console.log("Request Query Object: ", req.query);
+    try {
+        const { query } = req.query
+        console.log(" query: ", query)
+        if (!query) {
+            return res.status(400).json({ message: 'Please provide a search query' });
+
+
+        }
+
+        const clients = await Client.find({
+            $or: [
+                { fullName: { $regex: query, $options: 'i' } },
+                { nationalId: { $regex: query, $options: 'i' } }
+            ]
+        }).select('fullName nationalId phoneNumber').sort({ createdAt: -1 });
+
+        res.status(200).json({
+            success: true,
+            clients
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+}
+module.exports = { registerClient, enrollClientInPrograms, getAllClients, getClientProfile, searchClients }
