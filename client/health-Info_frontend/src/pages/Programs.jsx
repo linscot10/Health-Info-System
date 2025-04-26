@@ -26,7 +26,7 @@ const Programs = () => {
   }
 
   return (
-    <div className="container mt-5 position-relative" style={{ minHeight: '100vh' }}>
+    <div className=" container mt-5 position-relative" style={{ minHeight: '100vh' }}>
       <h2 className="mb-4 text-center fw-bold" style={{ color: '#007bff' }}>Health Programs</h2>
 
       {programs.length === 0 ? (
@@ -34,7 +34,7 @@ const Programs = () => {
           No health programs found. Please create one.
         </div>
       ) : (
-        <div className="row g-4">
+        <div className="row g-4 mb-5">
           {programs.map((program) => (
             <div className="col-md-4" key={program._id}>
               <div className="card shadow-sm h-100">

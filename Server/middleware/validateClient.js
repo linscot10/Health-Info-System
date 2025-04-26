@@ -4,7 +4,7 @@ const clientSchema = Joi.object({
     fullName: Joi.string().min(3).max(100).required(),
     gender: Joi.string().valid('Male', 'Female', 'Other').required(),
     dateOfBirth: Joi.date().less('now').required(),
-    nationalId: Joi.string().length(8).required(),
+    nationalId: Joi.string().min(5).required(),
     phoneNumber: Joi.string().pattern(/^[0-9]{10,13}$/).required(),
     email: Joi.string().email().required(),
     address: Joi.string().optional()

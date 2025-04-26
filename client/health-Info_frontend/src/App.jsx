@@ -1,4 +1,5 @@
-import { Routes, Route } from 'react-router-dom';
+import React from 'react'
+import  { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import ClientProfile from './pages/ClientProfile';
 import EnrollClient from './pages/EnrollClient';

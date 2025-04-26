@@ -1,7 +1,7 @@
 const Joi = require('joi')
 
 const programSchema = Joi.object({
-    name: Joi.string().trim().min(3).max(100).required(),
+    name: Joi.string().trim().min(1).max(100).required(),
     description: Joi.string().trim().allow('', null)
 });
 
