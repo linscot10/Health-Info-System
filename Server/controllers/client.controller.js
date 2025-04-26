@@ -1,4 +1,5 @@
 const Client = require('../models/client.model')
+const Program = require('../models/program.model')
 
 // register a new client
 
@@ -33,4 +34,89 @@ const registerClient = async (req, res) => {
     }
 };
 
-module.exports= registerClient
+// gell all clients
+const getAllClients = async (req, res) => {
+    try {
+        const clients = await Client.find().sort({ createdAt: -1 });
+
+        res.status(200).json({
+            success: true,
+            message: "Clients fetched successfully",
+            clients
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "Server error"
+        })
+    }
+}
+
+
+//get one client
+
+const getClientById = async (req, res) => {
+    try {
+        const client = await Client.findById(req.params.id);
+
+        if (!client) {
+            return res.status(404).json({ message: 'Client not found' });
+        }
+
+        res.status(200).json(client);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+// enroll client in one or more  programs
+
+const enrollClientInPrograms = async (req, res) => {
+    try {
+
+        const clientId = req.params.id;
+        const { programIds } = req.body
+
+        if (!Array.isArray(programIds) || programIds.length === 0) {
+            return res.status(400).json({ message: 'Please provide at least one program ID' });
+        }
+
+        // Check if client exists
+        const client = await Client.findById(clientId);
+        if (!client) {
+            return res.status(404).json({ message: 'Client not found' });
+        }
+
+        // Verify all programs exist
+        const validPrograms = await Program.find({ _id: { $in: programIds } });
+        if (validPrograms.length !== programIds.length) {
+            return res.status(400).json({ message: 'Some program IDs are invalid' });
+        }
+
+        // Avoid duplicate enrollments
+        const newEnrollments = programIds.filter(
+            pid => !client.enrolledPrograms.includes(pid)
+        );
+        if (newEnrollments.length === 0) {
+            return res.status(400).json({ message: 'Client is already enrolled in all selected programs' });
+        }
+
+        // Add programs and save
+        client.enrolledPrograms.push(...newEnrollments);
+        await client.save();
+
+
+        res.status(200).json({
+            success: true,
+            message: 'Client enrolled successfully',
+            enrolledPrograms: client.enrolledPrograms
+        });
+    } catch (error) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error' });
+
+    }
+}
+
+
+module.exports = { registerClient, enrollClientInPrograms, getAllClients, getClientById }
