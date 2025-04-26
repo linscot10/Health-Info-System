@@ -46,7 +46,7 @@ Update the base URL to point to your backend server:
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'http://localhost:5000/api', // Adjust if different
+  baseURL: 'http://localhost:4000/api', // Adjust if different
 });
 
 export default API;
