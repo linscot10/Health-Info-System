@@ -7,7 +7,7 @@ const mongoose = require('mongoose')
 const registerClient = async (req, res) => {
     try {
 
-        console.log('Received Client Data:', req.body);
+      
         const { fullName, gender, dateOfBirth, nationalId, phoneNumber, email, address } = req.body;
 
         // Check for existing national ID
@@ -27,7 +27,7 @@ const registerClient = async (req, res) => {
         });
 
         await client.save();
-        console.log(client);
+        
 
 
         res.status(201).json({
@@ -35,7 +35,7 @@ const registerClient = async (req, res) => {
             client
         });
     } catch (err) {
-        console.error(err);
+      
         res.status(500).json({ message: 'Server error' });
     }
 };
@@ -66,7 +66,7 @@ const getClientProfile = async (req, res) => {
 
         const clientId = req.params.id;
 
-        console.log("clientId:", clientId);
+  
 
         // if (!mongoose.Types.ObjectId.isValid(clientId)) {
         //     return res.status(400).json({ message: 'Invalid client ID' });
@@ -83,7 +83,7 @@ const getClientProfile = async (req, res) => {
 
         res.status(200).json(client);
     } catch (err) {
-        console.error(err);
+       
         res.status(500).json({ message: 'Server error' });
     }
 };
@@ -94,7 +94,7 @@ const enrollClientInPrograms = async (req, res) => {
 
 
     try {
-        console.log("Request body:", req.body);
+      
 
 
         const clientId = req.params.id;
@@ -136,7 +136,7 @@ const enrollClientInPrograms = async (req, res) => {
             enrolledPrograms: client.enrolledPrograms
         });
     } catch (error) {
-        console.error(error);
+     
         res.status(500).json({ message: 'Server error' });
 
     }
@@ -146,11 +146,10 @@ const enrollClientInPrograms = async (req, res) => {
 
 const searchClients = async (req, res) => {
 
-    console.log("Route hit")
-    console.log("Request Query Object: ", req.query);
+ 
     try {
         const { query } = req.query
-        console.log(" query: ", query)
+     
         if (!query) {
             return res.status(400).json({ message: 'Please provide a search query' });
 
@@ -169,7 +168,7 @@ const searchClients = async (req, res) => {
             clients
         });
     } catch (error) {
-        console.error(error);
+  
         res.status(500).json({ message: 'Server error' });
     }
 }
@@ -195,7 +194,7 @@ const getPublicClientProfile = async (req, res) => {
             createdAt: client.createdAt,
         });
     } catch (err) {
-        console.error(err);
+    
         res.status(500).json({ message: 'Server error' });
     }
 }

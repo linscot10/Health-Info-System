@@ -27,7 +27,6 @@ const RegisterClient = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log('Form Data:', formData);
     try {
       await API.post('/clients', formData);
       alert('Client registered successfully!');

@@ -18,7 +18,6 @@ const ClientProfile = () => {
     try {
       const res = await API.get(`/clients/${clientId}`);
       setClient(res.data);
-      console.log(res.data);
       setLoading(false);
     } catch (error) {
       console.error('Failed to fetch client', error);

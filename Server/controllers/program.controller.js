@@ -70,7 +70,7 @@ const getProgramById = async (req, res) => {
 
         res.status(200).json(program);
     } catch (err) {
-        console.error(err);
+        
         res.status(500).json({ message: 'Server error' });
     }
 };

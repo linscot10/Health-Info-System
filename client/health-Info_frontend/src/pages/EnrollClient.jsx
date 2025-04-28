@@ -43,7 +43,6 @@ const EnrollClient = () => {
 
   const handleEnroll = async (e) => {
     e.preventDefault();
-    console.log(selectedPrograms)
     try {
       const programIds = selectedPrograms.map(program => program._id || program);
       await API.post(`/clients/${clientId}/enroll`, { programIds });
